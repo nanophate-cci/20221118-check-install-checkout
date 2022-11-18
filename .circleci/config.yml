@@ -1,0 +1,32 @@
+version: 2.1
+jobs:
+  build:
+    machine:
+      image: windows-server-2019-vs2019:stable
+    resource_class: windows.medium
+    steps:
+      - run:
+          name: Set timezone
+          command: Set-TimeZone -Name "GMT Standard Time"
+          
+      - run:
+          name: Install JDK in the background
+          command: |          
+            curl -o jdk.zip -L https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.2%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.2_8.zip
+            mkdir /c/Program\ Files/Adoptium/
+            tar xfz jdk.zip -C /c/Program\ Files/Adoptium/
+            rm jdk.zip
+            touch /tmp/jdk.txt
+          shell: bash.exe
+          background: true
+          
+      - run:
+          name: Install Maven in the background
+          command: |
+            choco install maven -y
+            touch /tmp/maven.txt
+          shell: bash.exe
+          background: true
+         
+      - checkout
+          

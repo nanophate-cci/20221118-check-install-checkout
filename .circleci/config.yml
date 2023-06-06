@@ -19,14 +19,7 @@ jobs:
             touch /tmp/jdk.txt
           shell: bash.exe
           background: true
-          
-      - run:
-          name: Install Maven in the background
-          command: |
-            choco install maven -y
-            touch /tmp/maven.txt
-          shell: bash.exe
-          background: true
+         
          
       - checkout
           
